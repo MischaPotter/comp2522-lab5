@@ -13,6 +13,8 @@ import java.util.List;
  */
 class BookStore
 {
+    final private static int DECADE_YEARS = 10;
+
     final private String      bookStoreName;
     final private List<Novel> inventory;
 
@@ -134,7 +136,7 @@ class BookStore
         {
             if (book != null)
             {
-                System.out.println(book);
+                System.out.println(book.getTitle().toUpperCase());
             }
         }
     }
@@ -148,7 +150,7 @@ class BookStore
     {
         for (final Novel book : inventory)
         {
-            if (book != null && book.getTitle().contains(title))
+            if (book != null && book.getTitle().toLowerCase().contains(title))
             {
                 System.out.println(book);
             }
@@ -167,11 +169,21 @@ class BookStore
      * Prints all books for the inputted decade IE 2000s -> print all book
      * titles from 2000 to 2009.
      *
-     * @param decade
+     * @param decade the decade the books should be in
      */
     public void printGroupByDecade(final int decade)
     {
-
+        // find decade. if input = 2000
+        // in between 2000 to 20009
+        // what if they give 1885?
+        // remainder of 1000? = 885
+        for (final Novel book : inventory)
+        {
+            if (book != null && (book.getYearPublished() >= decade && book.getYearPublished() < decade + DECADE_YEARS))
+            {
+                System.out.println(book);
+            }
+        }
     }
 
     /**
@@ -192,14 +204,43 @@ class BookStore
         System.out.println(longestTitle);
     }
 
+    /**
+     * Checks if there is a Novel written in a specific year.
+     *
+     * @param year the year
+     * @return true if there is a Novel written in the year
+     */
     public boolean isThereABookWrittenIn(final int year)
     {
+        for (final Novel book : inventory)
+        {
+            if (book != null && book.getYearPublished() == year)
+            {
+                return true;
+            }
+        }
         return false;
     }
 
+    /**
+     * Checks how many Novels contain a word.
+     *
+     * @param word the word to check for
+     * @return the number of Novels that contain this word
+     */
     public int howManyBooksContain(final String word)
     {
-        return 0;
+        int foundBooks;
+        foundBooks = 0;
+
+        for (final Novel book : inventory)
+        {
+            if (book != null && book.getTitle().toLowerCase().contains(word))
+            {
+                foundBooks++;
+            }
+        }
+        return foundBooks;
     }
 
     public double whichPercentWrittenBetween(final int first,
@@ -208,9 +249,23 @@ class BookStore
         return 0.0;
     }
 
+    /**
+     * Finds the oldest Novel.
+     *
+     * @return the oldest Novel
+     */
     public Novel getOldestBook()
     {
-        return new Novel("", "", 0);
+        Novel oldestBook;
+        oldestBook = inventory.getFirst();
+        for (final Novel book : inventory)
+        {
+            if (book != null && oldestBook.getYearPublished() > book.getYearPublished())
+            {
+                oldestBook = book;
+            }
+        }
+        return oldestBook;
     }
 
     /**
@@ -235,6 +290,11 @@ class BookStore
         return bookList;
     }
 
+    /**
+     * Tests some of the BookStore and Novel methods.
+     *
+     * @param args command line arguments (unused)
+     */
     public static void main(final String[] args)
     {
         final BookStore bookstore;
