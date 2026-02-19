@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class description.
+ * Models a BookStore, which has a name and comes populated with inventory (Novels).
  *
  * @author Mischa Potter
  * @author Shivika Kapoor
