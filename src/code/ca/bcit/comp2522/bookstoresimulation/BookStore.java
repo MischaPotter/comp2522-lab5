@@ -1,7 +1,6 @@
 package ca.bcit.comp2522.bookstoresimulation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
